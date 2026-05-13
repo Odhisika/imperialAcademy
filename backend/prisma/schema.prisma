@@ -1,0 +1,118 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Users & Roles (Admin management)
+model User {
+  id           Int      @id @default(autoincrement())
+  fullName     String   @map("full_name") @db.VarChar(150)
+  email        String   @unique @db.VarChar(150)
+  passwordHash String   @map("password_hash") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+// 2. News & Events
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  slug        String   @unique @db.VarChar(255)
+  content     String   @db.Text
+  excerpt     String?  @db.Text
+  category    String   @db.VarChar(50) // e.g., Academic, Sports, Science
+  imageUrl    String?  @map("image_url") @db.Text
+  isFeatured  Boolean  @default(false) @map("is_featured")
+  author      String?  @db.VarChar(100)
+  publishedAt DateTime @default(now()) @map("published_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("news")
+}
+
+// 3. Gallery
+model Gallery {
+  id          Int      @id @default(autoincrement())
+  title       String?  @db.VarChar(150)
+  imageUrl    String   @map("image_url") @db.Text
+  category    String   @db.VarChar(50) // e.g., Campus, Sports, Arts
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("gallery")
+}
+
+// 4. Admissions
+model Admission {
+  id                Int      @id @default(autoincrement())
+  childName         String   @map("child_name") @db.VarChar(150)
+  childDob          DateTime @map("child_dob") @db.Date
+  gender            String   @db.VarChar(20)
+  gradeLevel        String   @map("grade_level") @db.VarChar(50)
+  parentName        String   @map("parent_name") @db.VarChar(150)
+  parentEmail       String   @map("parent_email") @db.VarChar(150)
+  parentPhone       String   @map("parent_phone") @db.VarChar(20)
+  address           String?  @db.Text
+  previousSchool    String?  @map("previous_school") @db.VarChar(255)
+  status            String   @default("Pending") @db.VarChar(50) // Pending, Under Review, Approved, Rejected
+  submissionDate    DateTime @default(now()) @map("submission_date")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@map("admissions")
+}
+
+// 5. Contact Inquiries
+model Contact {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(150)
+  email          String   @db.VarChar(150)
+  subject        String?  @db.VarChar(150)
+  message        String   @db.Text
+  isRead         Boolean  @default(false) @map("is_read")
+  submissionDate DateTime @default(now()) @map("submission_date")
+
+  @@map("contacts")
+}
+
+// 6. Page Headers
+model HeaderImage {
+  id        Int      @id @default(autoincrement())
+  pageName  String   @map("page_name") @db.VarChar(100) // 'home', 'about', 'academics', 'admissions', 'news', 'gallery', 'contact'
+  imageUrl  String   @map("image_url") @db.Text
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("header_images")
+}
+
+// 7. School Documents (Prospectus, Academic Calendar, etc.)
+model SchoolDocument {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(150) // 'prospectus', 'academic-calendar'
+  title     String   @db.VarChar(255) // 'School Prospectus 2026', 'Academic Calendar 2026/2027'
+  fileUrl   String   @map("file_url") @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("school_documents")
+}
+
+// 8. Extra Curricular Activities
+model Activity {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(150)
+  description String   @db.Text
+  imageUrl    String   @map("image_url") @db.Text
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("activities")
+}
