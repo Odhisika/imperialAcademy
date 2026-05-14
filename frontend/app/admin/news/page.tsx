@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 const PAGE_SIZE = 8
 const CATEGORIES = ['All', 'Academic', 'Sports', 'Science', 'Arts', 'Admissions', 'Events', 'General']
 

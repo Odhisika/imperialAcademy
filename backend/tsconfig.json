@@ -11,5 +11,12 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["**/*", ".ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "prisma/seedFinancials.ts",
+    "prisma/seeds/financialTemplates.ts",
+    "prisma/seeds/registrationRequirements.ts",
+    "scripts/seedHeaders.ts",
+    "services/financialAnalysisService.ts"
+  ]
 }

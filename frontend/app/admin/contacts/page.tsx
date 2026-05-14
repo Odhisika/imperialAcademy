@@ -5,7 +5,7 @@ import { Mail, Loader2, Trash2, CheckCircle, Clock, Search, XCircle, RefreshCw }
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 
 interface Contact {
     id: number

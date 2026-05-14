@@ -8,7 +8,6 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        NEXT_PUBLIC_API_URL: 'https://api.your-domain.com', // Update with your actual API URL
         ADMIN_GATE_SECRET: 'post-n0-bill'
       }
     },
@@ -20,8 +19,9 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3001,
+        FRONTEND_URL: 'https://imperialacademy.edu.gh',
         ADMIN_GATE_SECRET: 'post-n0-bill',
-        DATABASE_URL: 'postgresql://user:password@localhost:5432/dbname' // Update with your actual DB URL
+        DATABASE_URL:'postgresql://imperial_admin:ImperialAcademies%40@localhost:5432/imperial_academy?schema=public'
       }
     }
   ]

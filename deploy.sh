@@ -13,6 +13,7 @@ git pull origin main
 echo "📦 Updating Backend dependencies..."
 cd backend
 npm install
+npm run build
 cd ..
 
 # 3. Update Frontend

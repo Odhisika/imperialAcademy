@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Send, Loader2 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 
 export default function ContactForm() {
     const [formData, setFormData] = useState({

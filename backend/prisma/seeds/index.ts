@@ -11,6 +11,9 @@ async function main() {
     try {
         // Run individual seed files
         // Using ts-node to run the specific seed file
+        console.log('Running Admin User Seed...');
+        await execPromise('npx ts-node prisma/seeds/adminUser.ts');
+
         console.log('Running Registration Requirements Seed...');
         await execPromise('npx ts-node prisma/seeds/registrationRequirements.ts');
 

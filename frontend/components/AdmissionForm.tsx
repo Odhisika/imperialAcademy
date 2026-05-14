@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User, Mail, Phone, Calendar, GraduationCap, Send, School, Loader2, Users } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 
 export default function AdmissionForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
