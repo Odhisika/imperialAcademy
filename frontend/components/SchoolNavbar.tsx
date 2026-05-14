@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -31,9 +32,14 @@ export default function SchoolNavbar() {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}>
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-[#00236F] rounded-lg flex items-center justify-center font-bold text-[whitesmoke] text-xl">
-            IA
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative w-12 h-12 overflow-hidden rounded-full border-2 border-[#FEA619] shadow-md group-hover:scale-110 transition-transform duration-300 bg-white">
+            <Image 
+              src="/images/logo.jpeg" 
+              alt="Imperial Academy Logo" 
+              fill 
+              className="object-contain p-1"
+            />
           </div>
           <span className={`font-bold text-xl tracking-tight ${isScrolled ? "text-[#00236F]" : "text-white drop-shadow-md"}`}>
             Imperial Academy

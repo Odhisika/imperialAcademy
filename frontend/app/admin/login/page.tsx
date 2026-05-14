@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Building2, Lock, Mail, ArrowRight, EyeOff, Eye } from 'lucide-react'
+import { Lock, Mail, ArrowRight, EyeOff, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ThemeToggle } from '@/components/theme-toggle'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('')
@@ -41,8 +42,11 @@ export default function AdminLogin() {
             localStorage.setItem('userName', data.user.fullName)
             
             // Set cookie for Middleware to access
-            document.cookie = `auth_token=${data.token}; path=/; max-age=604800; samesite=lax`
-            document.cookie = `admin_gate=open; path=/; max-age=604800; samesite=lax`
+            const isProd = process.env.NODE_ENV === 'production';
+            const cookieBase = `; path=/; max-age=604800; samesite=lax${isProd ? '; secure' : ''}`;
+            
+            document.cookie = `auth_token=${data.token}${cookieBase}`;
+            document.cookie = `admin_gate=open${cookieBase}`;
 
             router.push('/admin')
         } catch (err: any) {
@@ -59,8 +63,13 @@ export default function AdminLogin() {
             </div>
             <Card className="w-full max-w-md shadow-xl border-zinc-200 dark:border-zinc-800 bg-card text-card-foreground">
                 <CardHeader className="text-center">
-                    <div className="mx-auto w-12 h-12 rounded-xl bg-[#00236F] flex items-center justify-center text-white mb-4">
-                        <Building2 className="w-6 h-6" />
+                    <div className="mx-auto w-16 h-16 relative overflow-hidden rounded-full border-2 border-[#FEA619] shadow-md bg-white mb-4 p-1">
+                        <Image 
+                            src="/images/logo.jpeg" 
+                            alt="Imperial Academy Logo" 
+                            fill 
+                            className="object-contain"
+                        />
                     </div>
                     <CardTitle className="text-2xl">Admin Login</CardTitle>
                     <CardDescription>Imperial Academy Management</CardDescription>

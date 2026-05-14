@@ -7,7 +7,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import HeroCarousel from "@/components/HeroCarousel";
 
 export default async function Home() {
-  let carouselImages: string[] = ["/images/primary.jpg"];
+  let carouselImages: string[] = ["/images/imperial.jpeg", "/images/library-student.png"];
   let latestNews = [];
 
   try {

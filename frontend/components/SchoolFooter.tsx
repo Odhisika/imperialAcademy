@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Twitter, Instagram, Mail, MapPin, Phone } from "lucide-react";
 
 export default function SchoolFooter() {
@@ -6,9 +7,14 @@ export default function SchoolFooter() {
     <footer className="bg-[#00174f] text-zinc-400 py-16 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         <div>
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-[#FEA619] rounded-lg flex items-center justify-center font-bold text-[#00236F] text-xl">
-              IA
+          <div className="flex items-center gap-2 mb-6 group cursor-pointer">
+            <div className="relative w-12 h-12 overflow-hidden rounded-full border-2 border-[#FEA619] shadow-md group-hover:scale-110 transition-transform duration-300 bg-white">
+              <Image 
+                src="/images/logo.jpeg" 
+                alt="Imperial Academy Logo" 
+                fill 
+                className="object-contain p-1"
+              />
             </div>
             <span className="font-bold text-2xl text-white tracking-tight">
               Imperial Academy

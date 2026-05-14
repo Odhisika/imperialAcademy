@@ -24,8 +24,9 @@ export function middleware(request: NextRequest) {
       if (accessSecret === gateSecret || authToken) {
         response.cookies.set('admin_gate', 'open', {
           path: '/',
-          maxAge: 86400, // 24 hours
+          maxAge: 86400 * 7, // 7 days
           sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
         })
       }
       return response
@@ -46,8 +47,9 @@ export function middleware(request: NextRequest) {
     if (adminGate !== 'open') {
       response.cookies.set('admin_gate', 'open', {
         path: '/',
-        maxAge: 86400,
+        maxAge: 86400 * 7,
         sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
       })
     }
     return response

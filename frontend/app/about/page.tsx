@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
-  let headerImage = "/images/primary.jpg";
+  let headerImage = "/images/library-student.png";
   let prospectus = null;
 
   try {

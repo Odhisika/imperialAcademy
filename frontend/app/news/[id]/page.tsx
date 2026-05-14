@@ -70,7 +70,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
             {/* Hero Section */}
             <div className="relative h-[60vh] min-h-[400px] w-full bg-[#00236F] flex items-center justify-center overflow-hidden">
                 <Image
-                    src={article.imageUrl || "/images/primary.jpg"}
+                    src={article.imageUrl || "/images/library-student.png"}
                     alt={article.title}
                     fill
                     priority

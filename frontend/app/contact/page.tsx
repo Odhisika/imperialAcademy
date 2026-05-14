@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-    let headerImage = "/images/primary.jpg";
+    let headerImage = "/images/library-student.png";
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/contact`, { cache: 'no-store' });
         if (res.ok) {

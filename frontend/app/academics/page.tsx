@@ -244,7 +244,7 @@ export default async function AcademicsPage() {
                             <ScrollReveal direction="up" delay={200}>
                                 <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgb(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgb(0,0,0,0.18)] hover:-translate-y-2 transition-all duration-300 border border-zinc-100 flex flex-col h-full transform lg:-translate-y-4">
                                     <div className="relative w-full aspect-[4/3]">
-                                        <Image src="/images/primary.jpg" alt="Primary" fill className="object-cover object-center" />
+                                        <Image src="/images/library-student.png" alt="Primary" fill className="object-cover object-center" />
                                     </div>
                                     <div className="p-8 flex flex-col flex-grow">
                                         <div className="flex justify-between items-center mb-4">
