@@ -20,6 +20,9 @@ async function main() {
         console.log('Running Financial Templates Seed...');
         await execPromise('npx ts-node prisma/seeds/financialTemplates.ts');
 
+        console.log('Running Admin User Seed...');
+        await execPromise('npx ts-node prisma/seeds/adminUser.ts');
+
         console.log('✅ All seeds executed successfully.');
     } catch (error) {
         console.error('❌ Error during seeding:', error);

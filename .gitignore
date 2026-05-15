@@ -18,6 +18,9 @@ dist/
 .DS_Store
 *.pem
 
+# Seeds with credentials
+backend/prisma/seeds/adminUser.ts
+
 # Env files
 .env
 .env.local
