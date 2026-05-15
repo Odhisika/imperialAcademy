@@ -18,15 +18,18 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    const rules = [];
     if (process.env.NODE_ENV === 'development') {
-      return [
-        {
-          source: '/api/:path*',
-          destination: 'http://localhost:3001/api/:path*',
-        },
-      ];
+      rules.push({
+        source: '/api/:path*',
+        destination: 'http://localhost:3001/api/:path*',
+      });
     }
-    return [];
+    rules.push({
+      source: '/uploads/:path*',
+      destination: 'http://localhost:3001/uploads/:path*',
+    });
+    return rules;
   },
 };
 
