@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram, Mail, MapPin, Phone } from "lucide-react"
 export default function SchoolFooter() {
   return (
     <footer className="bg-[#00174f] text-zinc-400 py-16 border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
         <div>
           <div className="flex items-center gap-2 mb-6 group cursor-pointer">
             <div className="relative w-12 h-12 overflow-hidden rounded-full border-2 border-[#FEA619] shadow-md group-hover:scale-110 transition-transform duration-300 bg-white">
@@ -57,6 +57,22 @@ export default function SchoolFooter() {
             <li><Link href="/academics" className="hover:text-[#FEA619] transition-colors">Junior High School</Link></li>
             <li><Link href="/academics" className="hover:text-[#FEA619] transition-colors">Holistic Education</Link></li>
             <li><Link href="/academics" className="hover:text-[#FEA619] transition-colors">Extracurriculars</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-white font-bold text-lg mb-6">Portal</h4>
+          <ul className="space-y-3">
+            <li>
+              <a 
+                href="https://ssm.imperialacademy.edu.gh/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-[#FEA619] transition-colors"
+              >
+                SSM Portal
+              </a>
+            </li>
           </ul>
         </div>
 

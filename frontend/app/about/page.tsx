@@ -238,22 +238,22 @@ export default async function AboutPage() {
             {/* Right Profile */}
             <ScrollReveal direction="right" className="w-full lg:w-2/5 order-1 lg:order-2 lg:pt-16">
               <div className="bg-zinc-50 rounded-[2.5rem] p-6 pb-8 border border-zinc-100 flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-shadow">
-                <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 shadow-inner">
+                <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 shadow-inner bg-[#e2e8f0]">
                   <Image
-                    src="/images/parent_avatar_1_1776684949768.png"
-                    alt="Dr. Julian Sterling"
+                    src="/images/avatar_placeholder.png"
+                    alt="Lorem Ipsum"
                     fill
                     className="object-cover object-center"
                   />
                 </div>
                 <h3 className="text-2xl font-bold text-[#00236F] mb-1">
-                  Dr. Julian Sterling
+                  Lorem Ipsum
                 </h3>
                 <p className="text-[#FEA619] font-bold mb-3">
-                  Head of School
+                  Lorem Ipsum
                 </p>
                 <p className="text-sm text-zinc-500 px-4">
-                  PhD in Educational Philosophy, Harvard University
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
               </div>
             </ScrollReveal>
