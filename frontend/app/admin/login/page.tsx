@@ -101,15 +101,8 @@ export default function AdminLogin() {
                                     >
                                         Password
                                     </label>
-                                    <Link
-                                        href="/auth/reset-password"
-                                        className="text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
-                                    >
-                                        Forgot password?
-                                    </Link>
                                 </div>
-
-                                <div className="relative w-full">
+                                <div className="relative group">
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         name="password"
@@ -122,29 +115,35 @@ export default function AdminLogin() {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-[#00236F] dark:hover:text-[#FEA619] transition-colors"
                                     >
-                                        {showPassword ? (
-                                            <EyeOff className="h-4 w-4" />
-                                        ) : (
-                                            <Eye className="h-4 w-4" />
-                                        )}
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
                                 </div>
                             </div>
 
                         {error && (
-                            <div className="rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 px-3 py-2 text-sm text-red-600 dark:text-red-400">
+                            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 rounded text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                                <Lock size={16} />
                                 {error}
                             </div>
                         )}
 
-                        <Button
-                            type="submit"
-                            className="w-full h-12 bg-[#00236F] dark:bg-[#00236F] text-white font-medium hover:bg-zinc-700 dark:hover:bg-zinc-600 transition"
+                        <Button 
+                            type="submit" 
+                            className="w-full h-12 bg-[#00236F] hover:bg-[#00236F]/90 text-white font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
                             disabled={loading}
                         >
-                            {loading ? "Signing In..." : "Sign In"}
+                            {loading ? (
+                                <span className="flex items-center gap-2">
+                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Signing in...
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-2">
+                                    Sign In <ArrowRight size={18} />
+                                </span>
+                            )}
                         </Button>
                     </form>
                 </CardContent>

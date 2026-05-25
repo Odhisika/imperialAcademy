@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,9 +7,9 @@ import SchoolNavbar from '@/components/SchoolNavbar';
 import SchoolFooter from '@/components/SchoolFooter';
 import ScrollReveal from '@/components/ScrollReveal';
 
-export const metadata = {
-    title: "Admission Policy | Imperial Academy",
-    description: "Read our comprehensive admission policy, criteria, and guidelines for the upcoming academic session.",
+export const metadata: Metadata = {
+    title: "Admission Policy",
+    description: "Read our comprehensive admission policy, criteria, and guidelines for the upcoming academic session at Imperial Academy.",
 };
 
 export default async function AdmissionPolicyPage() {
@@ -17,8 +18,8 @@ export default async function AdmissionPolicyPage() {
 
     try {
         const [policyRes, headerRes] = await Promise.all([
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/admission-policy`, { cache: 'no-store' }),
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/admissions`, { cache: 'no-store' })
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/admission-policy`, { next: { revalidate: 3600 } }),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/admissions`, { next: { revalidate: 3600 } })
         ]);
 
         if (policyRes.ok) {

@@ -1,18 +1,19 @@
+import { Metadata } from "next";
 import SchoolNavbar from "@/components/SchoolNavbar";
 import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import GalleryGrid from "@/components/GalleryGrid";
 
-export const metadata = {
-    title: "Gallery | Imperial Academy",
-    description: "Explore our vibrant campus life through our official photo gallery.",
+export const metadata: Metadata = {
+    title: "Gallery",
+    description: "Explore our vibrant campus life through our official photo gallery. See our students in action at Imperial Academy.",
 };
 
 export default async function GalleryPage() {
     let galleryItems = [];
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gallery`, { cache: 'no-store' });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gallery`, { next: { revalidate: 3600 } });
         if (res.ok) {
             galleryItems = await res.json();
         }

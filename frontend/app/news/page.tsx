@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -7,9 +8,9 @@ import ScrollReveal from "@/components/ScrollReveal";
 import FeaturedNews from "@/components/FeaturedNews";
 import NewsGrid from "@/components/NewsGrid";
 
-export const metadata = {
-    title: "News | Imperial Academy",
-    description: "Stay informed with the latest school events and updates from Imperial Academy.",
+export const metadata: Metadata = {
+    title: "News & Updates",
+    description: "Stay informed with the latest school events, achievements, and updates from Imperial Academy.",
 };
 
 export default async function NewsPage() {
@@ -17,7 +18,7 @@ export default async function NewsPage() {
     let featuredNews = null;
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`, { cache: 'no-store' });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`, { next: { revalidate: 3600 } });
         if (res.ok) {
             news = await res.json();
             featuredNews = news.find((item: any) => item.isFeatured) || news[0];

@@ -23,11 +23,24 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
 
 async function getArticle(id: string): Promise<NewsArticle | null> {
     try {
-        const res = await fetch(`${API_BASE}/api/news/${id}`, { cache: 'no-store' });
+        const res = await fetch(`${API_BASE}/api/news/${id}`, { next: { revalidate: 3600 } });
         if (!res.ok) return null;
         return res.json();
     } catch (error) {
         return null;
+    }
+}
+
+export async function generateStaticParams() {
+    try {
+        const res = await fetch(`${API_BASE}/api/news`, { next: { revalidate: 3600 } });
+        if (!res.ok) return [];
+        const news = await res.json();
+        return news.map((article: NewsArticle) => ({
+            id: article.id.toString(),
+        }));
+    } catch (error) {
+        return [];
     }
 }
 

@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Shield, Laptop, Award, ShieldCheck, Users, Trophy } from "lucide-react";
@@ -6,22 +7,29 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import HeroCarousel from "@/components/HeroCarousel";
 
+export const metadata: Metadata = {
+  title: 'Imperial Academy | Home',
+  description: 'Welcome to Imperial Academy. We provide high-quality education and build strong foundations for future leaders.',
+};
+
 export default async function Home() {
   let carouselImages: string[] = ["/images/imperial.jpeg", "/images/library-student.png"];
   let latestNews = [];
 
   try {
-    // Fetch all header images for the home page
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/home`, { cache: 'no-store' });
-    if (res.ok) {
-      const data = await res.json();
+    // Fetch data in parallel for better performance
+    const [headersRes, newsRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/home`, { next: { revalidate: 3600 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`, { next: { revalidate: 3600 } })
+    ]);
+
+    if (headersRes.ok) {
+      const data = await headersRes.json();
       if (Array.isArray(data) && data.length > 0) {
         carouselImages = data.map((item: any) => item.imageUrl);
       }
     }
 
-    // Fetch latest news
-    const newsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`, { cache: 'no-store' });
     if (newsRes.ok) {
       const newsData = await newsRes.json();
       latestNews = newsData.slice(0, 3); // Just the top 3

@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -6,9 +7,9 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ActivitiesCarousel from "@/components/ActivitiesCarousel";
 import { BookOpen, BrainCircuit, CheckCircle2, ArrowRight, Download, Calendar } from "lucide-react";
 
-export const metadata = {
-    title: "Academics | Imperial Academy",
-    description: "Our holistic curriculum balances rigorous intellectual inquiry with creative exploration.",
+export const metadata: Metadata = {
+    title: "Academics",
+    description: "Our holistic curriculum balances rigorous intellectual inquiry with creative exploration, preparing students for success in a rapidly changing world.",
 };
 
 export default async function AcademicsPage() {
@@ -18,9 +19,9 @@ export default async function AcademicsPage() {
 
     try {
         const [headerRes, docRes, prospectusRes] = await Promise.all([
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/academics`, { cache: 'no-store' }),
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/academic-calendar`, { cache: 'no-store' }),
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { cache: 'no-store' })
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/academics`, { next: { revalidate: 3600 } }),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/academic-calendar`, { next: { revalidate: 3600 } }),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { next: { revalidate: 3600 } })
         ]);
 
         if (headerRes.ok) {

@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2, Download, FileText } from "lucide-react";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -6,9 +7,9 @@ import ScrollReveal from "@/components/ScrollReveal";
 import AdmissionForm from "@/components/AdmissionForm";
 import Link from "next/link";
 
-export const metadata = {
-    title: "Admissions | Imperial Academy",
-    description: "Join our community. Apply for the upcoming academic session.",
+export const metadata: Metadata = {
+    title: "Admissions",
+    description: "Join our community at Imperial Academy. Apply for the upcoming academic session and give your child the best start in life.",
 };
 
 export default async function AdmissionsPage() {
@@ -18,9 +19,9 @@ export default async function AdmissionsPage() {
 
     try {
         const [headerRes, docRes, policyRes] = await Promise.all([
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/admissions`, { cache: 'no-store' }),
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { cache: 'no-store' }),
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/admission-policy`, { cache: 'no-store' })
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/admissions`, { next: { revalidate: 3600 } }),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { next: { revalidate: 3600 } }),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/admission-policy`, { next: { revalidate: 3600 } })
         ]);
 
         if (headerRes.ok) {
@@ -248,7 +249,7 @@ export default async function AdmissionsPage() {
                                     {/* Scholarship Box */}
                                     <div className="mt-8 bg-[#f4f5f7] rounded-2xl p-8 border border-zinc-100">
                                         <p className="text-zinc-600 text-sm md:text-base leading-relaxed">
-                                            We offer merit-based scholarships up to 40% of the tuition fee for exceptional students in academics, sports, and performing arts.
+                                          
                                         </p>
                                     </div>
                                 </div>

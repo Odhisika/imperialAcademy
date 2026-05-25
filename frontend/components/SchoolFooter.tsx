@@ -100,7 +100,6 @@ export default function SchoolFooter() {
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-[#FEA619] transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="hover:text-[#FEA619] transition-colors">Terms of Service</Link>
-          <Link href="/admin/login" className="hover:text-[#FEA619] transition-colors">Admin Portal</Link>
         </div>
       </div>
     </footer>

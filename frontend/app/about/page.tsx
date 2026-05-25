@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Rocket, Eye, Heart, FileText, Download } from "lucide-react";
@@ -6,9 +7,9 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import CountUp from "@/components/CountUp";
 
-export const metadata = {
-  title: "About Our School | Imperial Academy",
-  description: "Learn about Imperial Academy's history, mission, vision, and core values.",
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn about Imperial Academy's history, mission, vision, and core values. We are committed to nurturing the next generation of leaders.",
 };
 
 export default async function AboutPage() {
@@ -17,8 +18,8 @@ export default async function AboutPage() {
 
   try {
     const [headerRes, docRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/about`, { cache: 'no-store' }),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { cache: 'no-store' })
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/about`, { next: { revalidate: 3600 } }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/documents/prospectus`, { next: { revalidate: 3600 } })
     ]);
 
     if (headerRes.ok) {

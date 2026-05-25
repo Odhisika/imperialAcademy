@@ -98,14 +98,15 @@ export default function AdminDashboard() {
                                 <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                                     <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-500">{stat.title}</CardTitle>
                                     <div className={`p-2.5 rounded-xl ${stat.color} shadow-lg shadow-zinc-200 dark:shadow-none group-hover:scale-110 transition-transform`}>
-                                        <stat.icon className="h-5 w-5 text-white" />
+                                        <stat.icon className="w-5 h-5 text-white" />
                                     </div>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-4xl font-black text-[#00236F] dark:text-zinc-100">{stat.value}</div>
-                                    <div className="flex items-center mt-3 text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 w-fit px-2 py-1 rounded-md">
-                                        <ArrowUpRight className="h-3.5 w-3.5 mr-1" /> {stat.trend} <span className="text-zinc-400 font-normal ml-1">increase</span>
-                                    </div>
+                                    <div className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">{stat.value}</div>
+                                    <p className="text-xs text-zinc-400 mt-2 flex items-center gap-1 font-medium">
+                                        <span className={stat.trend.startsWith('+') ? 'text-emerald-500' : 'text-rose-500'}>{stat.trend}</span>
+                                        since last month
+                                    </p>
                                 </CardContent>
                             </Card>
                         ))}
@@ -113,87 +114,79 @@ export default function AdminDashboard() {
 
                     <div className="grid gap-6 lg:grid-cols-2">
                         {/* Recent Admissions */}
-                        <Card className="shadow-sm border-zinc-200 dark:border-zinc-800">
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
-                                    <CardTitle className="text-xl text-[#00236F]">Recent Admissions</CardTitle>
-                                    <CardDescription>Latest student applications</CardDescription>
+                        <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+                            <CardHeader className="border-b border-zinc-100 dark:border-zinc-800/50">
+                                <div className="flex items-center justify-between">
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        <Users className="w-5 h-5 text-[#FEA619]" />
+                                        Recent Admissions
+                                    </CardTitle>
+                                    <Link href="/admin/admissions">
+                                        <Button variant="ghost" size="sm" className="text-xs text-zinc-500 hover:text-[#00236F]">View All</Button>
+                                    </Link>
                                 </div>
-                                <Link href="/admin/admissions">
-                                    <Button variant="ghost" size="sm" className="text-[#FEA619] font-bold hover:text-[#00236F] hover:bg-[#FEA619]/10">
-                                        View All
-                                    </Button>
-                                </Link>
                             </CardHeader>
-                            <CardContent>
-                                <div className="space-y-6">
-                                    {stats?.recentAdmissions?.length === 0 ? (
-                                        <p className="text-center py-8 text-zinc-500 italic">No recent applications</p>
-                                    ) : (
-                                        stats?.recentAdmissions?.map((admission: any) => (
-                                            <div key={admission.id} className="flex items-center justify-between group">
+                            <CardContent className="p-0">
+                                {stats?.recentAdmissions.length ? (
+                                    <div className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
+                                        {stats.recentAdmissions.map((adm) => (
+                                            <div key={adm.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 rounded-full bg-[#00236F]/10 flex items-center justify-center text-[#00236F] font-bold">
-                                                        {admission.childName.charAt(0)}
+                                                    <div className="w-10 h-10 rounded-full bg-[#00236F]/5 flex items-center justify-center text-[#00236F] font-bold">
+                                                        {adm.studentName.charAt(0)}
                                                     </div>
                                                     <div>
-                                                        <p className="font-bold text-zinc-900 dark:text-zinc-100">{admission.childName}</p>
-                                                        <p className="text-xs text-zinc-500">{admission.gradeLevel}</p>
+                                                        <div className="font-bold text-zinc-900 dark:text-zinc-100">{adm.studentName}</div>
+                                                        <div className="text-xs text-zinc-500">{adm.className} • {new Date(adm.createdAt).toLocaleDateString()}</div>
                                                     </div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <Badge variant={admission.status === 'Approved' ? 'default' : admission.status === 'Rejected' ? 'destructive' : 'secondary'}>
-                                                        {admission.status}
-                                                    </Badge>
-                                                    <p className="text-[10px] text-zinc-400 mt-1 flex items-center justify-end">
-                                                        <Clock className="w-3 h-3 mr-1" />
-                                                        {new Date(admission.submissionDate).toLocaleDateString()}
-                                                    </p>
-                                                </div>
+                                                <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 border-none font-bold">New</Badge>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="p-8 text-center text-zinc-400 text-sm">No recent admissions.</div>
+                                )}
                             </CardContent>
                         </Card>
 
                         {/* Recent Messages */}
-                        <Card className="shadow-sm border-zinc-200 dark:border-zinc-800">
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
-                                    <CardTitle className="text-xl text-[#00236F]">Recent Inquiries</CardTitle>
-                                    <CardDescription>Messages from contact form</CardDescription>
+                        <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+                            <CardHeader className="border-b border-zinc-100 dark:border-zinc-800/50">
+                                <div className="flex items-center justify-between">
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        <Mail className="w-5 h-5 text-rose-500" />
+                                        Latest Inquiries
+                                    </CardTitle>
+                                    <Link href="/admin/contacts">
+                                        <Button variant="ghost" size="sm" className="text-xs text-zinc-500 hover:text-[#00236F]">View All</Button>
+                                    </Link>
                                 </div>
-                                <Link href="/admin/contacts">
-                                    <Button variant="ghost" size="sm" className="text-[#FEA619] font-bold hover:text-[#00236F] hover:bg-[#FEA619]/10">
-                                        Open Inbox
-                                    </Button>
-                                </Link>
                             </CardHeader>
-                            <CardContent>
-                                <div className="space-y-6">
-                                    {stats?.recentMessages?.length === 0 ? (
-                                        <p className="text-center py-8 text-zinc-500 italic">No recent messages</p>
-                                    ) : (
-                                        stats?.recentMessages?.map((msg: any) => (
-                                            <div key={msg.id} className="flex items-center justify-between group">
-                                                <div className="flex items-center gap-4 max-w-[70%]">
-                                                    <div className={`w-2 h-2 rounded-full ${msg.isRead ? 'bg-zinc-200' : 'bg-[#FEA619]'}`} />
-                                                    <div className="truncate">
-                                                        <p className={`font-bold text-zinc-900 dark:text-zinc-100 truncate ${!msg.isRead ? 'text-[#00236F]' : ''}`}>
-                                                            {msg.subject}
-                                                        </p>
-                                                        <p className="text-xs text-zinc-500 truncate">from {msg.name}</p>
-                                                    </div>
+                            <CardContent className="p-0">
+                                {stats?.recentMessages.length ? (
+                                    <div className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
+                                        {stats.recentMessages.map((msg) => (
+                                            <div key={msg.id} className="p-4 flex items-start gap-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
+                                                <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/30 text-rose-500 mt-1">
+                                                    <Mail className="w-4 h-4" />
                                                 </div>
-                                                <p className="text-[10px] text-zinc-400 flex items-center">
-                                                    <Clock className="w-3 h-3 mr-1" />
-                                                    {new Date(msg.submissionDate).toLocaleDateString()}
-                                                </p>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <div className="font-bold text-zinc-900 dark:text-zinc-100 truncate">{msg.name}</div>
+                                                        <span className="text-[10px] text-zinc-400 flex items-center gap-1">
+                                                            <Clock className="w-3 h-3" />
+                                                            {new Date(msg.createdAt).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs text-zinc-500 line-clamp-2">{msg.message}</p>
+                                                </div>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="p-8 text-center text-zinc-400 text-sm">No recent messages.</div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>

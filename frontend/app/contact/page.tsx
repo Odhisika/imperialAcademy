@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -6,15 +7,15 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ContactForm from "@/components/ContactForm";
 import MapWrapper from "@/components/MapWrapper";
 
-export const metadata = {
-    title: "Contact Us | Imperial Academy",
-    description: "Get in touch with Imperial Academy. We are here to answer your questions and help you begin your journey.",
+export const metadata: Metadata = {
+    title: "Contact Us",
+    description: "Get in touch with Imperial Academy. We are here to answer your questions and help you begin your journey with us.",
 };
 
 export default async function ContactPage() {
     let headerImage = "/images/library-student.png";
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/contact`, { cache: 'no-store' });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/contact`, { next: { revalidate: 3600 } });
         if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data) && data.length > 0) {
