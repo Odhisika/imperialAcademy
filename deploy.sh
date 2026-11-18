@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Zero-Downtime Deployment Script for Imperial Academy
 # Usage: ./deploy.sh
@@ -25,9 +26,10 @@ npm run build
 cd ..
 
 # 4. Zero-Downtime Reload with PM2
-# 'reload' is better than 'restart' as it starts new processes before killing old ones
+# 'reload' is better than 'restart' as it starts new processes before killing old ones.
+# Use the ecosystem file (not 'pm2 reload all') so changed env values are picked up.
 echo "♻️ Reloading applications with PM2..."
-pm2 reload all --update-env
+pm2 startOrReload ecosystem.config.js --update-env
 
 # 5. Save PM2 state
 pm2 save
