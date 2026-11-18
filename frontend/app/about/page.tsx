@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Rocket, Eye, Heart, FileText, Download } from "lucide-react";
@@ -7,10 +7,12 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import CountUp from "@/components/CountUp";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About Us",
-  description: "Learn about Imperial Academy's history, mission, vision, and core values. We are committed to nurturing the next generation of leaders.",
-};
+  description: "Learn about Imperial Academy in New Tafo Akim — our history since 2017, mission, vision, core values and the leadership that guides our students.",
+  path: "/about",
+  keywords: ["about Imperial Academy", "Imperial Academy history", "private school New Tafo Akim"],
+});
 
 export default async function AboutPage() {
   let headerImage = "/images/library-student.png";
@@ -242,19 +244,19 @@ export default async function AboutPage() {
                 <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 shadow-inner bg-[#e2e8f0]">
                   <Image
                     src="/images/avatar_placeholder.png"
-                    alt="Lorem Ipsum"
+                    alt="Portrait of the Principal of Imperial Academy"
                     fill
                     className="object-cover object-center"
                   />
                 </div>
                 <h3 className="text-2xl font-bold text-[#00236F] mb-1">
-                  Lorem Ipsum
+                  The Principal
                 </h3>
                 <p className="text-[#FEA619] font-bold mb-3">
-                  Lorem Ipsum
+                  Imperial Academy
                 </p>
                 <p className="text-sm text-zinc-500 px-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Leading our community with a commitment to academic excellence, discipline and character development.
                 </p>
               </div>
             </ScrollReveal>

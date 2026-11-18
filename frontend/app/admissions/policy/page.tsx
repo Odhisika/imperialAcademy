@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,10 +7,12 @@ import SchoolNavbar from '@/components/SchoolNavbar';
 import SchoolFooter from '@/components/SchoolFooter';
 import ScrollReveal from '@/components/ScrollReveal';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Admission Policy",
-    description: "Read our comprehensive admission policy, criteria, and guidelines for the upcoming academic session at Imperial Academy.",
-};
+    description: "Read Imperial Academy's admission policy, entry requirements and selection criteria for nursery, primary and junior high applicants.",
+    path: "/admissions/policy",
+    keywords: ["Imperial Academy admission policy", "school admission requirements Ghana"],
+});
 
 export default async function AdmissionPolicyPage() {
     let policy = null;
@@ -43,7 +45,7 @@ export default async function AdmissionPolicyPage() {
             <div className="relative h-[40vh] min-h-[300px] w-full bg-[#00236F] flex items-center justify-center overflow-hidden">
                 <Image
                     src={headerImage}
-                    alt="Admission Policy"
+                    alt="Students at Imperial Academy"
                     fill
                     className="object-cover opacity-40"
                     priority

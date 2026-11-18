@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2, Download, FileText } from "lucide-react";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -7,10 +7,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import AdmissionForm from "@/components/AdmissionForm";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Admissions",
-    description: "Join our community at Imperial Academy. Apply for the upcoming academic session and give your child the best start in life.",
-};
+    description: "Apply for admission to Imperial Academy in New Tafo Akim, Ghana. See requirements, download the prospectus and start your child's application.",
+    path: "/admissions",
+    keywords: ["Imperial Academy admissions", "school admission Ghana", "apply for school New Tafo Akim", "school fees Ghana"],
+});
 
 export default async function AdmissionsPage() {
     let headerImage = "/images/library-student.png";

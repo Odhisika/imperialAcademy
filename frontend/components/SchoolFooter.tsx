@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Twitter, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 export default function SchoolFooter() {
   return (
@@ -23,17 +23,6 @@ export default function SchoolFooter() {
           <p className="mb-6 leading-relaxed text-zinc-300">
             Building strong foundations for the future. Empowering students to excel academically, socially, and personally since 2017.
           </p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-[#FEA619] hover:text-[#00236F] transition-colors">
-              <Facebook size={20} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-[#FEA619] hover:text-[#00236F] transition-colors">
-              <Twitter size={20} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-[#FEA619] hover:text-[#00236F] transition-colors">
-              <Instagram size={20} />
-            </a>
-          </div>
         </div>
 
         <div>

@@ -60,7 +60,7 @@ export default function HeroCarousel({ images }: HeroCarouselProps) {
                 >
                     <Image
                         src={image}
-                        alt={`Hero image ${index + 1}`}
+                        alt={`Imperial Academy campus photo ${index + 1}`}
                         fill
                         className="object-cover object-center"
                         priority={index === 0}

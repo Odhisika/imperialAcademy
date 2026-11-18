@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+import { contactPageSchema, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -7,10 +8,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ContactForm from "@/components/ContactForm";
 import MapWrapper from "@/components/MapWrapper";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Contact Us",
-    description: "Get in touch with Imperial Academy. We are here to answer your questions and help you begin your journey with us.",
-};
+    description: "Contact Imperial Academy in New Tafo Akim, Ghana. Call 0201 188 847 or 0543 974 931, email us, or visit our campus for admissions enquiries.",
+    path: "/contact",
+    keywords: ["contact Imperial Academy", "Imperial Academy phone number", "school in New Tafo Akim", "Imperial Academy address"],
+});
 
 export default async function ContactPage() {
     let headerImage = "/images/library-student.png";
@@ -28,6 +31,7 @@ export default async function ContactPage() {
 
     return (
         <div className="min-h-screen bg-white text-zinc-900 font-sans overflow-hidden relative">
+            <JsonLd data={contactPageSchema()} />
             {/* Top Navbar Gradient Background */}
             <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-[#00236F]/80 to-transparent z-0 pointer-events-none opacity-90" />
 
@@ -39,7 +43,7 @@ export default async function ContactPage() {
                     <div className="absolute inset-0 z-0">
                         <Image
                             src={headerImage}
-                            alt="Contact Us Background"
+                            alt="Imperial Academy campus"
                             fill
                             className="object-cover brightness-50"
                         />

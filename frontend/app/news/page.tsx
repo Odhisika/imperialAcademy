@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -8,10 +8,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import FeaturedNews from "@/components/FeaturedNews";
 import NewsGrid from "@/components/NewsGrid";
 
-export const metadata: Metadata = {
-    title: "News & Updates",
-    description: "Stay informed with the latest school events, achievements, and updates from Imperial Academy.",
-};
+export const metadata = pageMetadata({
+    title: "News & Events",
+    description: "Stay up to date with the latest news, announcements, events and achievements from Imperial Academy in New Tafo Akim, Ghana.",
+    path: "/news",
+    keywords: ["Imperial Academy news", "school events Ghana", "Imperial Academy announcements"],
+});
 
 export default async function NewsPage() {
     let news = [];

@@ -1,13 +1,15 @@
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import SchoolNavbar from "@/components/SchoolNavbar";
 import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import GalleryGrid from "@/components/GalleryGrid";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Gallery",
-    description: "Explore our vibrant campus life through our official photo gallery. See our students in action at Imperial Academy.",
-};
+    description: "Browse photos of life at Imperial Academy — classrooms, campus events, sports and the everyday moments that make our school community special.",
+    path: "/gallery",
+    keywords: ["Imperial Academy gallery", "school photos Ghana", "campus life New Tafo Akim"],
+});
 
 export default async function GalleryPage() {
     let galleryItems = [];

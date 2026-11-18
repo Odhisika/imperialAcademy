@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Shield, Laptop, Award, ShieldCheck, Users, Trophy } from "lucide-react";
@@ -7,10 +7,20 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import HeroCarousel from "@/components/HeroCarousel";
 
-export const metadata: Metadata = {
-  title: 'Imperial Academy | Home',
-  description: 'Welcome to Imperial Academy. We provide high-quality education and build strong foundations for future leaders.',
-};
+export const metadata = pageMetadata({
+  title: 'Imperial Academy | Building Strong Foundations in New Tafo Akim, Ghana',
+  description:
+    'Imperial Academy is a private school in New Tafo Akim, Ghana offering nursery, primary and junior high education with strong academics and character.',
+  path: '/',
+  absoluteTitle: true,
+  keywords: [
+    'Imperial Academy',
+    'private school New Tafo Akim',
+    'nursery school Ghana',
+    'primary school New Tafo',
+    'junior high school Eastern Region',
+  ],
+});
 
 export default async function Home() {
   let carouselImages: string[] = ["/images/imperial.jpeg", "/images/library-student.png"];
@@ -79,7 +89,7 @@ export default async function Home() {
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-xl aspect-[4/3]">
                   <Image
                     src="/images/student-upclose.png"
-                    alt="Broken Image"
+                    alt="Student at Imperial Academy, New Tafo Akim"
                     fill
                     className="object-cover object-top"
                   />

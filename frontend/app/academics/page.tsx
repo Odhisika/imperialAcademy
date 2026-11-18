@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import SchoolNavbar from "@/components/SchoolNavbar";
@@ -7,10 +7,12 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ActivitiesCarousel from "@/components/ActivitiesCarousel";
 import { BookOpen, BrainCircuit, CheckCircle2, ArrowRight, Download, Calendar } from "lucide-react";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: "Academics",
-    description: "Our holistic curriculum balances rigorous intellectual inquiry with creative exploration, preparing students for success in a rapidly changing world.",
-};
+    description: "Explore Imperial Academy's curriculum for nursery, primary and junior high pupils — rigorous academics balanced with creativity and character.",
+    path: "/academics",
+    keywords: ["Imperial Academy academics", "nursery school curriculum Ghana", "primary school subjects", "junior high school Ghana"],
+});
 
 export default async function AcademicsPage() {
     let headerImage = "/images/library-student.png";
@@ -89,7 +91,7 @@ export default async function AcademicsPage() {
                                 <div className="relative w-full aspect-[4/5] max-w-md mx-auto lg:ml-auto transform rotate-3 rounded-[2rem] overflow-hidden shadow-2xl transition-transform hover:rotate-0 duration-500">
                                     <Image
                                         src={headerImage}
-                                        alt="Student studying"
+                                        alt="Student studying at Imperial Academy"
                                         fill
                                         className="object-cover object-center"
                                         priority
@@ -214,7 +216,7 @@ export default async function AcademicsPage() {
                             <ScrollReveal direction="up" delay={0}>
                                 <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 border border-zinc-100 flex flex-col h-full">
                                     <div className="relative w-full aspect-[4/3]">
-                                        <Image src="/images/nursery.jpg" alt="Nursery" fill className="object-cover object-center" />
+                                        <Image src="/images/nursery.jpg" alt="Nursery pupils learning at Imperial Academy" fill className="object-cover object-center" />
                                     </div>
                                     <div className="p-8 flex flex-col flex-grow">
                                         <div className="flex justify-between items-center mb-4">
@@ -245,7 +247,7 @@ export default async function AcademicsPage() {
                             <ScrollReveal direction="up" delay={200}>
                                 <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgb(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgb(0,0,0,0.18)] hover:-translate-y-2 transition-all duration-300 border border-zinc-100 flex flex-col h-full transform lg:-translate-y-4">
                                     <div className="relative w-full aspect-[4/3]">
-                                        <Image src="/images/library-student.png" alt="Primary" fill className="object-cover object-center" />
+                                        <Image src="/images/library-student.png" alt="Primary school pupil reading at Imperial Academy" fill className="object-cover object-center" />
                                     </div>
                                     <div className="p-8 flex flex-col flex-grow">
                                         <div className="flex justify-between items-center mb-4">
@@ -276,7 +278,7 @@ export default async function AcademicsPage() {
                             <ScrollReveal direction="up" delay={400}>
                                 <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 border border-zinc-100 flex flex-col h-full">
                                     <div className="relative w-full aspect-[4/3]">
-                                        <Image src="/images/jhs.jpg" alt="Junior High" fill className="object-cover object-center" />
+                                        <Image src="/images/jhs.jpg" alt="Junior high students at Imperial Academy" fill className="object-cover object-center" />
                                     </div>
                                     <div className="p-8 flex flex-col flex-grow">
                                         <div className="flex justify-between items-center mb-4">

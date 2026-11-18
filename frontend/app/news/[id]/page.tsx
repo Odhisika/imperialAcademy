@@ -1,3 +1,5 @@
+import { articleSchema, DEFAULT_OG_IMAGE, pageMetadata, truncate } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -17,6 +19,7 @@ interface NewsArticle {
     imageUrl?: string;
     author?: string;
     publishedAt: string;
+    updatedAt?: string;
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
@@ -47,21 +50,30 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const { id } = await params;
     const article = await getArticle(id);
-    
-    if (!article) return { title: 'Article Not Found | Imperial Academy' };
 
-    return {
+    if (!article) {
+        return pageMetadata({
+            title: 'Article Not Found',
+            description: 'The news article you are looking for could not be found.',
+            path: `/news/${id}`,
+            noIndex: true,
+        });
+    }
+
+    const description = truncate(article.excerpt || article.content, 160);
+
+    return pageMetadata({
         title: article.title,
-        description: article.excerpt || article.content.substring(0, 160),
-        openGraph: {
-            title: article.title,
-            description: article.excerpt || article.content.substring(0, 160),
-            images: article.imageUrl ? [article.imageUrl] : [],
-            type: 'article',
-            publishedTime: article.publishedAt,
-            authors: article.author ? [article.author] : ['Imperial Academy'],
-        },
-    };
+        description,
+        path: `/news/${id}`,
+        image: article.imageUrl || DEFAULT_OG_IMAGE,
+        type: 'article',
+        publishedTime: article.publishedAt,
+        modifiedTime: article.updatedAt || article.publishedAt,
+        authors: [article.author || 'Imperial Academy'],
+        section: article.category,
+        tags: article.category ? [article.category] : undefined,
+    });
 }
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -76,8 +88,22 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
         year: 'numeric'
     });
 
+    const description = truncate(article.excerpt || article.content, 160);
+
     return (
         <main className="min-h-screen bg-white">
+            <JsonLd
+                data={articleSchema({
+                    title: article.title,
+                    description,
+                    path: `/news/${article.id}`,
+                    image: article.imageUrl,
+                    publishedAt: article.publishedAt,
+                    updatedAt: article.updatedAt,
+                    author: article.author,
+                    category: article.category,
+                })}
+            />
             <SchoolNavbar />
 
             {/* Hero Section */}
@@ -104,7 +130,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
                         <div className="flex flex-wrap items-center justify-center gap-6 text-zinc-200 text-sm md:text-base font-medium">
                             <div className="flex items-center gap-2">
                                 <Calendar className="w-5 h-5 text-[#FEA619]" />
-                                {publishDate}
+                                <time dateTime={article.publishedAt}>{publishDate}</time>
                             </div>
                             <div className="flex items-center gap-2">
                                 <User className="w-5 h-5 text-[#FEA619]" />
