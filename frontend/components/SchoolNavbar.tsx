@@ -49,7 +49,7 @@ export default function SchoolNavbar() {
         {/* Desktop Nav */}
         <div className={`hidden md:flex items-center gap-8 font-medium ${isScrolled ? "text-zinc-600" : "text-white/90 drop-shadow-sm"}`}>
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href));
 
             return (
               <Link key={link.name} href={link.href} className={`relative group transition-colors ${isActive ? 'text-[#FEA619]' : 'hover:text-[#FEA619]'}`}>
@@ -79,7 +79,7 @@ export default function SchoolNavbar() {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-zinc-100 flex flex-col py-4 px-6 gap-4">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href));
 
             return (
               <Link

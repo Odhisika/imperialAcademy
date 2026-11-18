@@ -8,7 +8,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        NEXT_PUBLIC_API_URL: 'https://api.imperialacademy.edu.gh',
+        NEXT_PUBLIC_API_URL: 'https://imperialacademy.edu.gh',
         ADMIN_GATE_SECRET: 'post-n0-bill'
       }
     },

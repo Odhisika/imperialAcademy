@@ -128,7 +128,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         const Icon = item.icon
                         const isActive = item.exact
                             ? pathname === item.href
-                            : pathname.startsWith(item.href)
+                            : pathname?.startsWith(item.href)
 
                         return (
                             <Button
