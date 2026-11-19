@@ -40,6 +40,9 @@ export default function AdminLogin() {
             localStorage.setItem('auth_token', data.token)
             localStorage.setItem('userEmail', data.user.email)
             localStorage.setItem('userName', data.user.fullName)
+
+            const mustChangePassword = data.mustChangePassword === true
+            localStorage.setItem('mustChangePassword', String(mustChangePassword))
             
             // Set cookie for Middleware to access
             const isProd = process.env.NODE_ENV === 'production';
@@ -48,7 +51,8 @@ export default function AdminLogin() {
             document.cookie = `auth_token=${data.token}${cookieBase}`;
             document.cookie = `admin_gate=open${cookieBase}`;
 
-            router.push('/admin')
+            // Accounts still on the seeded password must set a new one first.
+            router.push(mustChangePassword ? '/admin/change-password' : '/admin')
         } catch (err: any) {
             setError(err.message || 'Invalid credentials. Please try again.')
         } finally {

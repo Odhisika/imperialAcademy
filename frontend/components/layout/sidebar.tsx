@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { ADMIN_LOGIN_URL } from '@/lib/admin'
 
 
 interface SidebarProps {
@@ -171,7 +172,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                             localStorage.removeItem('userName')
                             document.cookie =
                                 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-                            window.location.href = '/admin/login'
+                            window.location.href = ADMIN_LOGIN_URL
                         }}
                     >
                         <LogOut className="w-4.5 h-4.5 shrink-0" />

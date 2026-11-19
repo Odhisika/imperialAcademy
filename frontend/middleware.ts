@@ -39,7 +39,10 @@ export function middleware(request: NextRequest) {
   // 2. Protect all other /admin routes
   if (pathname.startsWith('/admin')) {
     if (!authToken) {
-      return NextResponse.redirect(new URL('/admin/login', request.url))
+      // Carry the gate secret so the login page is not rewritten to /not-found.
+      const loginUrl = new URL('/admin/login', request.url)
+      if (gateSecret) loginUrl.searchParams.set('access', gateSecret)
+      return NextResponse.redirect(loginUrl)
     }
     
     // If they are logged in, ensure the gate stays open

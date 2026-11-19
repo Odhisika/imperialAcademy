@@ -3,17 +3,13 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import { ADMIN_LOGIN_URL } from '@/lib/admin'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
-    // Initialize from localStorage if possible to prevent flicker/blank screen
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('isAuthenticated') === 'true' ? true : null
-        }
-        return null
-    })
+    // Keep the initial value identical on server and client to avoid hydration errors.
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const router = useRouter()
     const pathname = usePathname()
 
@@ -27,7 +23,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
                 
                 if (pathname !== '/admin/login') {
-                    router.push('/admin/login')
+                    router.push(ADMIN_LOGIN_URL)
                 }
                 return
             }
@@ -46,8 +42,16 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 clearTimeout(timeoutId)
 
                 if (res.ok) {
+                    const data = await res.json()
                     setIsAuthenticated(true)
                     localStorage.setItem('isAuthenticated', 'true')
+
+                    // Server is source of truth: seeded passwords must be replaced first.
+                    const mustChange = data.mustChangePassword === true
+                    localStorage.setItem('mustChangePassword', String(mustChange))
+                    if (mustChange && pathname !== '/admin/change-password') {
+                        router.replace('/admin/change-password')
+                    }
                 } else {
                     setIsAuthenticated(false)
                     localStorage.removeItem('isAuthenticated')
@@ -56,7 +60,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                     document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
                     
                     if (pathname !== '/admin/login') {
-                        router.push('/admin/login')
+                        router.push(ADMIN_LOGIN_URL)
                     }
                 }
             } catch (err) {
@@ -75,7 +79,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (isAuthenticated === false && pathname !== '/admin/login') {
             const timer = setTimeout(() => {
-                window.location.href = '/admin/login?access=post-n0-bill'
+                window.location.href = ADMIN_LOGIN_URL
             }, 3000)
             return () => clearTimeout(timer)
         }
@@ -96,7 +100,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 <Loader2 className="h-8 w-8 text-[#00236F] animate-spin" />
                 <p className="text-sm text-zinc-500 font-medium">Redirecting to Login...</p>
                 <button 
-                    onClick={() => window.location.href = '/admin/login?access=post-n0-bill'}
+                    onClick={() => window.location.href = ADMIN_LOGIN_URL}
                     className="text-xs text-zinc-400 hover:text-[#00236F] underline mt-4"
                 >
                     Stuck? Click here to unlock login

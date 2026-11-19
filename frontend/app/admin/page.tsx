@@ -9,6 +9,9 @@ import Link from 'next/link'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
 
+// API rows can be missing optional fields — never let a bad row crash the dashboard.
+const initial = (value?: string | null) => value?.trim()?.charAt(0)?.toUpperCase() || '?'
+
 interface DashboardStats {
     admissions: number
     news: number
@@ -127,17 +130,17 @@ export default function AdminDashboard() {
                                 </div>
                             </CardHeader>
                             <CardContent className="p-0">
-                                {stats?.recentAdmissions.length ? (
+                                {stats?.recentAdmissions?.length ? (
                                     <div className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
                                         {stats.recentAdmissions.map((adm) => (
                                             <div key={adm.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-10 h-10 rounded-full bg-[#00236F]/5 flex items-center justify-center text-[#00236F] font-bold">
-                                                        {adm.studentName.charAt(0)}
+                                                        {initial(adm.childName || adm.parentName)}
                                                     </div>
                                                     <div>
-                                                        <div className="font-bold text-zinc-900 dark:text-zinc-100">{adm.studentName}</div>
-                                                        <div className="text-xs text-zinc-500">{adm.className} • {new Date(adm.createdAt).toLocaleDateString()}</div>
+                                                        <div className="font-bold text-zinc-900 dark:text-zinc-100">{adm.childName || adm.parentName || 'Unnamed applicant'}</div>
+                                                        <div className="text-xs text-zinc-500">{adm.gradeLevel} • {new Date(adm.submissionDate || adm.createdAt).toLocaleDateString()}</div>
                                                     </div>
                                                 </div>
                                                 <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 border-none font-bold">New</Badge>
@@ -164,7 +167,7 @@ export default function AdminDashboard() {
                                 </div>
                             </CardHeader>
                             <CardContent className="p-0">
-                                {stats?.recentMessages.length ? (
+                                {stats?.recentMessages?.length ? (
                                     <div className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
                                         {stats.recentMessages.map((msg) => (
                                             <div key={msg.id} className="p-4 flex items-start gap-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
@@ -176,7 +179,7 @@ export default function AdminDashboard() {
                                                         <div className="font-bold text-zinc-900 dark:text-zinc-100 truncate">{msg.name}</div>
                                                         <span className="text-[10px] text-zinc-400 flex items-center gap-1">
                                                             <Clock className="w-3 h-3" />
-                                                            {new Date(msg.createdAt).toLocaleDateString()}
+                                                            {new Date(msg.submissionDate).toLocaleDateString()}
                                                         </span>
                                                     </div>
                                                     <p className="text-xs text-zinc-500 line-clamp-2">{msg.message}</p>

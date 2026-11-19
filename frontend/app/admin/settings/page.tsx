@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { 
     User, 
     Lock, 
@@ -16,7 +16,56 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
+
 export default function SettingsPage() {
+    const [currentPassword, setCurrentPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [passwordSuccess, setPasswordSuccess] = useState('')
+    const [updating, setUpdating] = useState(false)
+
+    const handlePasswordUpdate = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setPasswordError('')
+        setPasswordSuccess('')
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError('New passwords do not match.')
+            return
+        }
+        if (newPassword.length < 8) {
+            setPasswordError('New password must be at least 8 characters long.')
+            return
+        }
+
+        setUpdating(true)
+        try {
+            const token = localStorage.getItem('auth_token')
+            const res = await fetch(`${API_BASE}/api/auth/change-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ currentPassword, newPassword }),
+            })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Could not update password.')
+
+            localStorage.setItem('mustChangePassword', 'false')
+            setPasswordSuccess('Your password has been updated.')
+            setCurrentPassword('')
+            setNewPassword('')
+            setConfirmPassword('')
+        } catch (err: any) {
+            setPasswordError(err.message || 'Could not update password. Please try again.')
+        } finally {
+            setUpdating(false)
+        }
+    }
+
     return (
         <div className="space-y-6">
             <div>
@@ -69,26 +118,56 @@ export default function SettingsPage() {
                             <CardTitle>Security Settings</CardTitle>
                             <CardDescription>Manage your password and security preferences.</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="current">Current Password</Label>
-                                <Input id="current" type="password" />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <CardContent>
+                            <form onSubmit={handlePasswordUpdate} className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="new">New Password</Label>
-                                    <Input id="new" type="password" />
+                                    <Label htmlFor="current">Current Password</Label>
+                                    <Input
+                                        id="current"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        required
+                                    />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="confirm">Confirm New Password</Label>
-                                    <Input id="confirm" type="password" />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="new">New Password</Label>
+                                        <Input
+                                            id="new"
+                                            type="password"
+                                            autoComplete="new-password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="confirm">Confirm New Password</Label>
+                                        <Input
+                                            id="confirm"
+                                            type="password"
+                                            autoComplete="new-password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-end">
-                                <Button className="bg-[#00236F] text-white">
-                                    <Lock className="w-4 h-4 mr-2" /> Update Password
-                                </Button>
-                            </div>
+                                {passwordError && (
+                                    <p className="text-sm text-rose-600 dark:text-rose-400">{passwordError}</p>
+                                )}
+                                {passwordSuccess && (
+                                    <p className="text-sm text-emerald-600 dark:text-emerald-400">{passwordSuccess}</p>
+                                )}
+                                <div className="flex justify-end">
+                                    <Button type="submit" disabled={updating} className="bg-[#00236F] text-white">
+                                        <Lock className="w-4 h-4 mr-2" />
+                                        {updating ? 'Updating…' : 'Update Password'}
+                                    </Button>
+                                </div>
+                            </form>
                         </CardContent>
                     </Card>
                 </TabsContent>

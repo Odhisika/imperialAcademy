@@ -12,6 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ADMIN_LOGIN_URL } from '@/lib/admin'
 
 interface HeaderProps {
     onMenuClick: () => void
@@ -108,7 +109,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                                         localStorage.removeItem('userName')
                                         document.cookie =
                                             'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-                                        window.location.href = '/admin/login'
+                                        window.location.href = ADMIN_LOGIN_URL
                                     }}
                                     className="cursor-pointer text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-950"
                                 >
