@@ -16,6 +16,7 @@ import {
     Mail,
     FileText,
     Trophy,
+    Share2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -71,6 +72,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             href: '/admin/activities',
             label: 'Activities',
             icon: Trophy,
+        },
+        {
+            href: '/admin/socials',
+            label: 'Socials & Contact',
+            icon: Share2,
         },
         {
             href: '/admin/settings',

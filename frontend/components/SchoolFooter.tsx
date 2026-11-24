@@ -1,8 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Phone } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Mail,
+  MapPin,
+  Music2,
+  Phone,
+  Twitter,
+  Linkedin,
+  Youtube,
+} from "lucide-react";
+import { getSiteSettings, telHref } from "@/lib/siteSettings";
 
-export default function SchoolFooter() {
+export default async function SchoolFooter() {
+  const settings = await getSiteSettings();
+  const socials = [
+    { label: "Facebook", href: settings.facebookUrl, Icon: Facebook },
+    { label: "Instagram", href: settings.instagramUrl, Icon: Instagram },
+    { label: "X (Twitter)", href: settings.twitterUrl, Icon: Twitter },
+    { label: "LinkedIn", href: settings.linkedinUrl, Icon: Linkedin },
+    { label: "YouTube", href: settings.youtubeUrl, Icon: Youtube },
+    { label: "TikTok", href: settings.tiktokUrl, Icon: Music2 },
+  ].filter((item) => item.href);
+
   return (
     <footer className="bg-[#00174f] text-zinc-400 py-16 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
@@ -70,17 +91,54 @@ export default function SchoolFooter() {
           <ul className="space-y-4">
             <li className="flex items-start gap-3">
               <MapPin className="text-[#FEA619] mt-1 shrink-0" size={20} />
-              <span>TQ 63, New Tafo Akim.<br />Digital Address: EE-1049-7190</span>
+              <span>
+                {settings.addressLine1}
+                {settings.digitalAddress && (
+                  <>
+                    <br />Digital Address: {settings.digitalAddress}
+                  </>
+                )}
+              </span>
             </li>
-            <li className="flex items-center gap-3">
+            <li className="flex items-start gap-3">
               <Phone className="text-[#FEA619] shrink-0" size={20} />
-              <span>0201188847 / 0543974931</span>
+              <span className="flex flex-wrap gap-x-2">
+                {[settings.phone1, settings.phone2].filter(Boolean).map((phone, index) => (
+                  <span key={phone}>
+                    {index > 0 && <span className="text-zinc-500">/</span>}{" "}
+                    <a href={telHref(phone)} className="hover:text-[#FEA619] transition-colors">{phone}</a>
+                  </span>
+                ))}
+              </span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="text-[#FEA619] shrink-0" size={20} />
-              <span className="break-all">imperailacademy68@gmail.com</span>
+              <a href={`mailto:${settings.email}`} className="break-all hover:text-[#FEA619] transition-colors">
+                {settings.email}
+              </a>
             </li>
           </ul>
+
+          {socials.length > 0 && (
+            <div className="mt-8">
+              <p className="text-white font-bold mb-3">Follow Us</p>
+              <div className="flex flex-wrap items-center gap-3">
+                {socials.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#FEA619] hover:text-[#00174f] transition-colors"
+                  >
+                    <Icon size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

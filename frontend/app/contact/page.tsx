@@ -7,6 +7,7 @@ import SchoolFooter from "@/components/SchoolFooter";
 import ScrollReveal from "@/components/ScrollReveal";
 import ContactForm from "@/components/ContactForm";
 import MapWrapper from "@/components/MapWrapper";
+import { getSiteSettings, telHref } from "@/lib/siteSettings";
 
 export const metadata = pageMetadata({
     title: "Contact Us",
@@ -16,22 +17,23 @@ export const metadata = pageMetadata({
 });
 
 export default async function ContactPage() {
+    const settings = await getSiteSettings();
     let headerImage = "/images/library-student.png";
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/contact`, { next: { revalidate: 3600 } });
-        if (res.ok) {
-            const data = await res.json();
+        const headersRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/headers/contact`, { next: { revalidate: 3600 } });
+        if (headersRes.ok) {
+            const data = await headersRes.json();
             if (Array.isArray(data) && data.length > 0) {
                 headerImage = data[0].imageUrl;
             }
         }
     } catch (error) {
-        console.error("Failed to fetch header image:", error);
+        console.error("Failed to fetch contact page data:", error);
     }
 
     return (
         <div className="min-h-screen bg-white text-zinc-900 font-sans overflow-hidden relative">
-            <JsonLd data={contactPageSchema()} />
+            <JsonLd data={contactPageSchema(settings)} />
             {/* Top Navbar Gradient Background */}
             <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-[#00236F]/80 to-transparent z-0 pointer-events-none opacity-90" />
 
@@ -83,8 +85,12 @@ export default async function ContactPage() {
                                         <div>
                                             <p className="text-xs font-bold uppercase tracking-widest text-[#a47b38] mb-2">Mailing Address</p>
                                             <p className="text-zinc-600 leading-relaxed font-medium">
-                                                TQ 63, New Tafo Akim.<br />
-                                                Digital Address: EE-1049-7190
+                                                {settings.addressLine1}
+                                                {settings.digitalAddress && (
+                                                    <>
+                                                        <br />Digital Address: {settings.digitalAddress}
+                                                    </>
+                                                )}
                                             </p>
                                         </div>
                                     </div>
@@ -99,7 +105,14 @@ export default async function ContactPage() {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold uppercase tracking-widest text-[#a47b38] mb-2">Phone Support</p>
-                                                <p className="text-zinc-600 font-bold text-lg">0201188847 / 0543974931</p>
+                                                <p className="text-zinc-600 font-bold text-lg flex flex-wrap gap-x-2">
+                                                    {[settings.phone1, settings.phone2].filter(Boolean).map((phone, index) => (
+                                                        <span key={phone}>
+                                                            {index > 0 && <span className="text-zinc-300">/</span>}{" "}
+                                                            <a href={telHref(phone)} className="hover:text-[#00236F] transition-colors">{phone}</a>
+                                                        </span>
+                                                    ))}
+                                                </p>
                                             </div>
                                         </div>
                                     </ScrollReveal>
@@ -112,7 +125,9 @@ export default async function ContactPage() {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold uppercase tracking-widest text-[#a47b38] mb-2">Email Inquiries</p>
-                                                <p className="text-zinc-600 font-bold text-lg break-all">imperailacademy68@gmail.com</p>
+                                                <a href={`mailto:${settings.email}`} className="text-zinc-600 font-bold text-lg break-all hover:text-[#00236F] transition-colors">
+                                                    {settings.email}
+                                                </a>
                                             </div>
                                         </div>
                                     </ScrollReveal>
@@ -124,17 +139,17 @@ export default async function ContactPage() {
                                         <Clock className="absolute -bottom-6 -right-6 text-white/5 opacity-10" size={160} />
                                         <h3 className="text-2xl font-bold mb-8 relative z-10">Office Hours</h3>
                                         <div className="space-y-4 relative z-10">
-                                            <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <div className="flex justify-between items-center gap-4 border-b border-white/10 pb-2">
                                                 <span className="text-blue-100">Monday - Friday</span>
-                                                <span className="font-bold">8:00 AM - 4:00 PM</span>
+                                                <span className="font-bold">{settings.weekdayHours}</span>
                                             </div>
-                                            <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <div className="flex justify-between items-center gap-4 border-b border-white/10 pb-2">
                                                 <span className="text-blue-100">Saturday</span>
-                                                <span className="font-bold">9:00 AM - 1:00 PM</span>
+                                                <span className="font-bold">{settings.saturdayHours}</span>
                                             </div>
-                                            <div className="flex justify-between items-center">
+                                            <div className="flex justify-between items-center gap-4">
                                                 <span className="text-blue-100">Sunday</span>
-                                                <span className="font-bold text-[#FEA619]">Closed</span>
+                                                <span className="font-bold text-[#FEA619]">{settings.sundayHours}</span>
                                             </div>
                                         </div>
                                     </div>

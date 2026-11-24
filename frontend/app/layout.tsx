@@ -14,6 +14,7 @@ import {
     websiteSchema,
 } from '@/lib/seo'
 import JsonLd from '@/components/JsonLd'
+import { getSiteSettings } from '@/lib/siteSettings'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -96,15 +97,17 @@ import { GoogleAuthProviderWrapper } from '@/components/GoogleAuthProviderWrappe
 import { ThemeProvider } from '@/components/theme-provider';
 import ProgressBar from '@/components/ProgressBar';
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const settings = await getSiteSettings()
+
     return (
         <html lang="en-GH" suppressHydrationWarning>
             <body className={`font-sans antialiased`}>
-                <JsonLd data={[organizationSchema(), websiteSchema()]} />
+                <JsonLd data={[organizationSchema(settings), websiteSchema()]} />
                 <ProgressBar />
                 <ThemeProvider
                     attribute="class"

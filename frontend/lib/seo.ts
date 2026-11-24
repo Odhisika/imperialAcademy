@@ -149,7 +149,22 @@ export function pageMetadata({
 /* Structured data (schema.org / JSON-LD)                              */
 /* ------------------------------------------------------------------ */
 
-export function organizationSchema() {
+import type { SiteSettings } from './siteSettings'
+
+const SOCIAL_SCHEMA_KEYS: (keyof SiteSettings)[] = [
+  'facebookUrl',
+  'instagramUrl',
+  'twitterUrl',
+  'linkedinUrl',
+  'youtubeUrl',
+  'tiktokUrl',
+]
+
+const currentPhones = (settings?: Partial<SiteSettings> | null) =>
+  [settings?.phone1 || SCHOOL.telephone[0], settings?.phone2].filter(Boolean) as string[]
+
+export function organizationSchema(settings?: Partial<SiteSettings> | null) {
+  const sameAs = SOCIAL_SCHEMA_KEYS.map((key) => settings?.[key]).filter(Boolean);
   return {
     '@context': 'https://schema.org',
     '@type': 'School',
@@ -163,13 +178,13 @@ export function organizationSchema() {
     },
     image: absoluteUrl(DEFAULT_OG_IMAGE),
     description: SITE_DESCRIPTION,
-    email: SCHOOL.email,
-    telephone: SCHOOL.telephone[0],
+    email: settings?.email || SCHOOL.email,
+    telephone: currentPhones(settings)[0],
     foundingDate: SCHOOL.foundingDate,
     slogan: SITE_TAGLINE,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: SCHOOL.streetAddress,
+      streetAddress: settings?.addressLine1 || SCHOOL.streetAddress,
       addressLocality: SCHOOL.addressLocality,
       addressRegion: SCHOOL.addressRegion,
       addressCountry: SCHOOL.addressCountry,
@@ -183,6 +198,7 @@ export function organizationSchema() {
       '@type': 'City',
       name: SCHOOL.addressLocality,
     },
+    ...(sameAs.length ? { sameAs } : {}),
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -213,7 +229,7 @@ export function websiteSchema() {
   }
 }
 
-export function contactPageSchema() {
+export function contactPageSchema(settings?: Partial<SiteSettings> | null) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
@@ -226,7 +242,7 @@ export function contactPageSchema() {
     about: { '@id': `${SITE_URL}/#school` },
     mainEntity: {
       '@id': `${SITE_URL}/#school`,
-      contactPoint: SCHOOL.telephone.map((telephone) => ({
+      contactPoint: currentPhones(settings).map((telephone) => ({
         '@type': 'ContactPoint',
         telephone,
         contactType: 'admissions',

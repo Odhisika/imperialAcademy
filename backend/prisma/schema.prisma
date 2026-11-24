@@ -116,3 +116,25 @@ model Activity {
 
   @@map("activities")
 }
+
+// 9. Editable social links and contact details (single row, id = 1)
+model SiteSettings {
+  id             Int      @id @default(1)
+  facebookUrl    String?  @map("facebook_url") @db.Text
+  instagramUrl   String?  @map("instagram_url") @db.Text
+  twitterUrl     String?  @map("twitter_url") @db.Text
+  linkedinUrl    String?  @map("linkedin_url") @db.Text
+  youtubeUrl     String?  @map("youtube_url") @db.Text
+  tiktokUrl      String?  @map("tiktok_url") @db.Text
+  addressLine1   String   @default("TQ 63, New Tafo Akim") @map("address_line1") @db.VarChar(255)
+  digitalAddress String   @default("EE-1049-7190") @map("digital_address") @db.VarChar(100)
+  phone1         String   @default("0201188847") @db.VarChar(50)
+  phone2         String?  @map("phone2") @db.VarChar(50)
+  email          String   @default("imperailacademy68@gmail.com") @db.VarChar(150)
+  weekdayHours   String   @default("8:00 AM - 4:00 PM") @map("weekday_hours") @db.VarChar(100)
+  saturdayHours  String   @default("9:00 AM - 1:00 PM") @map("saturday_hours") @db.VarChar(100)
+  sundayHours    String   @default("Closed") @map("sunday_hours") @db.VarChar(100)
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}

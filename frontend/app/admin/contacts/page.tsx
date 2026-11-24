@@ -82,18 +82,18 @@ export default function ContactsAdminPage() {
                     <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Contact Inquiries</h1>
                     <p className="text-zinc-500">You have {unreadCount} unread messages from the contact form.</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <div className="relative">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                    <div className="relative w-full sm:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                         <input 
                             type="text" 
                             placeholder="Search messages..." 
-                            className="pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-sm outline-none focus:ring-2 focus:ring-[#00236F]/20 w-64"
+                            className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-sm outline-none focus:ring-2 focus:ring-[#00236F]/20"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <Button variant="outline" size="sm" onClick={fetchContacts} className="gap-2">
+                    <Button variant="outline" size="sm" onClick={fetchContacts} className="gap-2 w-full sm:w-auto shrink-0">
                         <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
                     </Button>
                 </div>
@@ -123,41 +123,41 @@ export default function ContactsAdminPage() {
                             className={`border-zinc-200 dark:border-zinc-800 transition-all ${!contact.isRead ? 'border-l-4 border-l-[#FEA619] shadow-md' : 'opacity-80'}`}
                         >
                             <CardHeader className="pb-3">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex gap-4">
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!contact.isRead ? 'bg-[#00236F]/10 text-[#00236F]' : 'bg-zinc-100 text-zinc-400'}`}>
+                                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                                    <div className="flex gap-3 min-w-0 flex-1">
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${!contact.isRead ? 'bg-[#00236F]/10 text-[#00236F]' : 'bg-zinc-100 text-zinc-400'}`}>
                                             <Mail className="w-5 h-5" />
                                         </div>
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <CardTitle className="text-lg">{contact.subject}</CardTitle>
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <CardTitle className="text-lg break-words">{contact.subject}</CardTitle>
                                                 {!contact.isRead && (
-                                                    <span className="bg-[#FEA619] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase">New</span>
+                                                    <span className="bg-[#FEA619] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase shrink-0">New</span>
                                                 )}
                                             </div>
-                                            <CardDescription className="flex items-center gap-2 mt-1">
+                                            <CardDescription className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1">
                                                 <span className="font-bold text-zinc-700 dark:text-zinc-300">{contact.name}</span>
                                                 <span className="text-zinc-300">•</span>
-                                                <span>{contact.email}</span>
+                                                <span className="break-all">{contact.email}</span>
                                                 <span className="text-zinc-300">•</span>
-                                                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(contact.submissionDate).toLocaleString()}</span>
+                                                <span className="flex items-center gap-1 whitespace-nowrap"><Clock className="w-3 h-3 shrink-0" /> {new Date(contact.submissionDate).toLocaleString()}</span>
                                             </CardDescription>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
                                         <Button 
                                             variant="outline" 
                                             size="sm" 
-                                            className={`${!contact.isRead ? 'text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border-emerald-100' : 'text-zinc-500 hover:bg-zinc-100'} gap-1.5`}
+                                            className={`flex-1 sm:flex-none gap-1.5 ${!contact.isRead ? 'text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border-emerald-100' : 'text-zinc-500 hover:bg-zinc-100'}`}
                                             onClick={() => toggleReadStatus(contact.id, contact.isRead)}
                                         >
-                                            <CheckCircle className="w-4 h-4" /> 
+                                            <CheckCircle className="w-4 h-4 shrink-0" /> 
                                             {contact.isRead ? 'Mark Unread' : 'Mark Read'}
                                         </Button>
                                         <Button 
                                             variant="outline" 
                                             size="sm" 
-                                            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-100"
+                                            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-100 shrink-0"
                                             onClick={() => deleteContact(contact.id)}
                                         >
                                             <Trash2 className="w-4 h-4" />

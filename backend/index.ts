@@ -53,6 +53,7 @@ import dashboardRoutes from './routes/dashboardRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import documentRoutes from './routes/documentRoutes';
 import activityRoutes from './routes/activityRoutes';
+import settingsRoutes from './routes/settingsRoutes';
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
@@ -69,6 +70,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/activities', activityRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Static file serving for uploads
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));

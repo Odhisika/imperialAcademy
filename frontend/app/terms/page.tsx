@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { pageMetadata, SCHOOL } from '@/lib/seo'
 import SchoolNavbar from '@/components/SchoolNavbar'
 import SchoolFooter from '@/components/SchoolFooter'
+import { getSiteSettings, telHref } from '@/lib/siteSettings'
 
 export const metadata = pageMetadata({
     title: 'Terms of Service',
@@ -12,7 +13,9 @@ export const metadata = pageMetadata({
 
 const LAST_UPDATED = '18 November 2026'
 
-export default function TermsPage() {
+export default async function TermsPage() {
+    const settings = await getSiteSettings()
+
     return (
         <div className="min-h-screen bg-white text-zinc-900 font-sans">
             <SchoolNavbar />
@@ -88,8 +91,8 @@ export default function TermsPage() {
                         <h2>Contact</h2>
                         <p>
                             Questions about these terms can be sent to{' '}
-                            <a href={`mailto:${SCHOOL.email}`}>{SCHOOL.email}</a> or by calling{' '}
-                            <a href="tel:+233201188847">0201 188 847</a>.
+                            <a href={`mailto:${settings.email}`}>{settings.email}</a> or by calling{' '}
+                            <a href={telHref(settings.phone1)}>{settings.phone1}</a>.
                         </p>
 
                         <p>

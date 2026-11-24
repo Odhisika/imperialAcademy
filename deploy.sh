@@ -14,6 +14,9 @@ git pull origin main
 echo "📦 Updating Backend dependencies..."
 cd backend
 npm install
+# Apply new Prisma migrations before the API starts using the new fields.
+npx prisma migrate deploy
+npx prisma generate
 npm run build
 cd ..
 

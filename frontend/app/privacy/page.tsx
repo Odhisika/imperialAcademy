@@ -1,7 +1,9 @@
+import React from 'react'
 import Link from 'next/link'
 import { pageMetadata, SCHOOL } from '@/lib/seo'
 import SchoolNavbar from '@/components/SchoolNavbar'
 import SchoolFooter from '@/components/SchoolFooter'
+import { getSiteSettings, telHref } from '@/lib/siteSettings'
 
 export const metadata = pageMetadata({
     title: 'Privacy Policy',
@@ -12,7 +14,9 @@ export const metadata = pageMetadata({
 
 const LAST_UPDATED = '18 November 2026'
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+    const settings = await getSiteSettings()
+
     return (
         <div className="min-h-screen bg-white text-zinc-900 font-sans">
             <SchoolNavbar />
@@ -99,12 +103,17 @@ export default function PrivacyPage() {
                         <p>
                             {SCHOOL.name}
                             <br />
-                            {SCHOOL.streetAddress}, Ghana
+                            {settings.addressLine1}, Ghana
                             <br />
-                            Email: <a href={`mailto:${SCHOOL.email}`}>{SCHOOL.email}</a>
+                            Email: <a href={`mailto:${settings.email}`}>{settings.email}</a>
                             <br />
-                            Phone: <a href="tel:+233201188847">0201 188 847</a> /{' '}
-                            <a href="tel:+233543974931">0543 974 931</a>
+                            Phone:{' '}
+                            {[settings.phone1, settings.phone2].filter(Boolean).map((phone, index) => (
+                                <React.Fragment key={phone}>
+                                    {index > 0 && ' / '}
+                                    <a href={telHref(phone)}>{phone}</a>
+                                </React.Fragment>
+                            ))}
                         </p>
 
                         <p>
