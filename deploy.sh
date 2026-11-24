@@ -16,6 +16,8 @@ cd backend
 npm install
 # Apply new Prisma migrations before the API starts using the new fields.
 npx prisma migrate deploy
+# Force a fresh client — a stale generated client makes new models invisible to tsc.
+rm -rf node_modules/.prisma/client
 npx prisma generate
 npm run build
 cd ..
